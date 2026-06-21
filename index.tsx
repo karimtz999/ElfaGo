@@ -1,15 +1,12 @@
-// index.tsx (or App.tsx)
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
+import { Link } from "expo-router";
 
-
-export default function App() {
+export default function Intro() {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 5000); // 5 seconds
+    const timer = setTimeout(() => setShowSplash(false), 5000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -17,7 +14,7 @@ export default function App() {
     return (
       <View style={styles.splash}>
         <Image
-          source={require('../../assets/uber.png')} // put your logo in /assets
+          source={require("../../assets/uber.png")}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -26,41 +23,29 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../../assets/uber.png')}
-        style={styles.smallLogo}
-        resizeMode="contain"
-      />
-      <Text style={styles.welcome}>Welcome to Uber Eats</Text>
-    </View>
+    <ImageBackground
+      source={require("../../assets/background.png")}
+      style={styles.background}
+    >
+      <View style={styles.overlay}>
+        <Text style={styles.welcome}>Welcome to Uber Eats</Text>
+        {/* Link to login.tsx */}
+        <Link href="./Login" asChild>
+          <TouchableOpacity style={styles.continueButton}>
+            <Text style={styles.buttonText}>Continue</Text>
+          </TouchableOpacity>
+        </Link>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  splash: {
-    flex: 1,
-    backgroundColor: '#06C167', // Uber Eats green
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logo: {
-    width: 200,
-    height: 200,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  smallLogo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-  },
-  welcome: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
+  splash: { flex: 1, backgroundColor: "#06C167", justifyContent: "center", alignItems: "center" },
+  logo: { width: 200, height: 200 },
+  background: { flex: 1, resizeMode: "cover" },
+  overlay: { flex: 1, justifyContent: "flex-end", alignItems: "center", paddingBottom: 40, backgroundColor: "rgba(0,0,0,0.3)" },
+  welcome: { fontSize: 22, fontWeight: "bold", color: "#fff", marginBottom: 30 },
+  continueButton: { backgroundColor: "#06C167", paddingVertical: 16, paddingHorizontal: 100, borderRadius: 30, marginBottom: 40 },
+  buttonText: { color: "#fff", fontSize: 20, fontWeight: "600" },
 });
